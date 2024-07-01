@@ -1,0 +1,82 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.login-body {
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.login-container {
+  text-align: center;
+  background: white;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+.logo {
+  margin-right: 20px;
+  vertical-align: middle;
+  display: inline;
+}
+
+.login-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: #0056b3;
+}
+
+body {
+  font-family: 'Arial, sans-serif';
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background-color: #3B3F41;
+  /* Contentstack branding color */
+  color: #FFFFFF;
+  padding: 20px;
+  text-align: center;
+}
+
+.container {
+  padding: 20px;
+}
+
+.content {
+  margin: 20px 0;
+}
+
+.content a {
+  color: #007BFF;
+  /* Contentstack branding link color */
+  text-decoration: none;
+}
+
+.content a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  background-color: #F4F4F4;
+  padding: 10px;
+  text-align: center;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
