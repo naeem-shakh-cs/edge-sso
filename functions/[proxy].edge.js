@@ -7,16 +7,17 @@ export default async function handler(request, context) {
     OAUTH_REDIRECT_URI: context.env.OAUTH_REDIRECT_URI,
     OAUTH_TOKEN_URL: context.env.OAUTH_TOKEN_URL
   };
-  console.log(request.url);
-  console.log(request.method);
   if (request.url.includes('_next') || request.url.includes('favicon.ico')) {
     return fetch(request);
   }
 
   if (request.url.includes('/login')) {
+      console.log('login request')
     return fetch(request);
   }
 
+  console.log(request.url);
+  console.log(request.method);
   if (request.url.includes('/oauth/callback')) {
     const authCode = new URL(request.url).searchParams.get('code');
     console.log(authCode);
@@ -26,6 +27,7 @@ export default async function handler(request, context) {
       const jwtToken = await createJwtToken(tokens, oauthCredentials);
       const response = redirectTo('/');
       const modifiedResponse = setCookie(response, 'jwt', jwtToken);
+      console.log('set jwt in cookie')
       return modifiedResponse;
     }
     
@@ -62,6 +64,7 @@ export default async function handler(request, context) {
       return redirectToLogin();
     }
   }
+      console.log('not jwt in cookie, redirecting to login')
   return redirectToLogin();
 }
 
