@@ -27,7 +27,7 @@ export default async function handler(request, context) {
       const jwtToken = await createJwtToken(tokens, oauthCredentials);
       const response = redirectTo('/');
       const modifiedResponse = setCookie(response, 'jwt', jwtToken);
-      console.log('set jwt in cookie')
+      console.log('set jwt in cookie', jwtToken)
       return modifiedResponse;
     }
     
