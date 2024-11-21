@@ -8,6 +8,7 @@ export default async function handler(request, context) {
     OAUTH_TOKEN_URL: context.env.OAUTH_TOKEN_URL
   };
   const clonedHeaders = new Headers(request.headers);
+  console.log('edge header', clonedHeaders.get('x-launch-deploymentuid'))
   clonedHeaders.set('x-launch-deploymentuid', 'something');
   request = new Request(request.url, {
 		...request,
