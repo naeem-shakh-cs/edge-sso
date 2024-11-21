@@ -23,20 +23,19 @@ export default async function handler(request, context) {
 		...request,
 		headers: new Headers(clonedHeaders),
 	});
-  console.log({url: request.url, method: request.method});
   if (request.url.includes('/oauth/callback')) {
     const authCode = new URL(request.url).searchParams.get('code');
     if (authCode) {
-      console.log('if', authCode);
       const tokens = await exchangeAuthCodeForTokens(authCode, oauthCredentials);
       const jwtToken = await createJwtToken(tokens, oauthCredentials);
       const response = redirectTo('/');
       const modifiedResponse = setCookie(response, 'jwt', jwtToken);
-      console.log('set jwt in cookie', jwtToken)
+      console.log(JSON.stringify({condition: 'if',jwtToken, url: request.url, method: request.method, authCode, responseStatus:modifiedResponse.status}))
+      
       return modifiedResponse;
     }
     
-      console.log('not if');
+      console.log(JSON.stringify({'condition':'not if',url: request.url, method: request.method}));
   }
 
   const cookies = parseCookies(request.headers.get('cookie') || '');
