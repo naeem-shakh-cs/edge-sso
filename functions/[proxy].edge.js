@@ -7,7 +7,10 @@ export default async function handler(request, context) {
     OAUTH_REDIRECT_URI: context.env.OAUTH_REDIRECT_URI,
     OAUTH_TOKEN_URL: context.env.OAUTH_TOKEN_URL
   };
-  
+
+  if (request.url.includes('/ttt')) {
+    return redirectTo('/')
+  }
   if (request.url.includes('_next') || request.url.includes('favicon.ico')) {
     return fetch(request);
   }
