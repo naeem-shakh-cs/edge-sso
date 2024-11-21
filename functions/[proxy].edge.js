@@ -7,13 +7,7 @@ export default async function handler(request, context) {
     OAUTH_REDIRECT_URI: context.env.OAUTH_REDIRECT_URI,
     OAUTH_TOKEN_URL: context.env.OAUTH_TOKEN_URL
   };
-  const clonedHeaders = new Headers(request.headers);
-  console.log('edge header', clonedHeaders.get('x-launch-deploymentuid'))
-  clonedHeaders.set('x-launch-deploymentuid', 'something');
-  request = new Request(request.url, {
-		...request,
-		headers: new Headers(clonedHeaders),
-	});
+  
   if (request.url.includes('_next') || request.url.includes('favicon.ico')) {
     return fetch(request);
   }
@@ -22,14 +16,18 @@ export default async function handler(request, context) {
       console.log('login request')
     return fetch(request);
   }
-
-  console.log(request.url);
-  console.log(request.method);
+  const clonedHeaders = new Headers(request.headers);
+  console.log('edge header', clonedHeaders.get('x-launch-deploymentuid'))
+  clonedHeaders.set('x-launch-deploymentuid', 'something');
+  request = new Request(request.url, {
+		...request,
+		headers: new Headers(clonedHeaders),
+	});
+  console.log({url: request.url, method: request.method});
   if (request.url.includes('/oauth/callback')) {
     const authCode = new URL(request.url).searchParams.get('code');
-    console.log(authCode);
     if (authCode) {
-      console.log('if');
+      console.log('if', authCode);
       const tokens = await exchangeAuthCodeForTokens(authCode, oauthCredentials);
       const jwtToken = await createJwtToken(tokens, oauthCredentials);
       const response = redirectTo('/');
@@ -46,7 +44,7 @@ export default async function handler(request, context) {
 
   if (jwtToken) {
     
-      console.log('jwt token');
+      console.log('jwt token present');
     try {
       const verified = await jwt.verify(jwtToken, oauthCredentials.OAUTH_CLIENT_SECRET);
       if (verified) {
