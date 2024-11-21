@@ -68,7 +68,8 @@ export default async function handler(request, context) {
       return redirectToLogin();
     }
   }
-      console.log('not jwt in cookie, redirecting to login')
+      console.log(JSON.stringify({condition: 'not jwt in cookie', url: request.url, method: request.method}))
+      
   return redirectToLogin();
 }
 
