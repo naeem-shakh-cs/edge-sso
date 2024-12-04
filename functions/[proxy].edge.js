@@ -19,13 +19,6 @@ export default async function handler(request, context) {
       console.log('login request')
     return fetch(request);
   }
-  const clonedHeaders = new Headers(request.headers);
-  console.log('edge header', clonedHeaders.get('x-launch-deploymentuid'))
-  clonedHeaders.set('x-launch-deploymentuid', 'something');
-  request = new Request(request.url, {
-		...request,
-		headers: new Headers(clonedHeaders),
-	});
   if (request.url.includes('/oauth/callback')) {
     const authCode = new URL(request.url).searchParams.get('code');
     if (authCode) {
